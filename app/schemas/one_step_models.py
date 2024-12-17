@@ -72,3 +72,40 @@ class InputDataOneStep(BaseModel):
     previous_level: float
     previous_level_timediff: int
     age_group: int
+
+
+"""
+input data schema
+age                       int
+gender                    int
+race                      str
+weight                    int
+height                    int
+formulation               str
+route                     int
+dose                      float
+doses_per_24_hrs          int
+level_dose_timediff       int
+treatment_days            int
+previous_dose             float
+previous_level            float
+previous_level_timediff   int
+age_group                 int
+"""
+
+class InputDataNoLabsOneStep(BaseModel):
+    age: int
+    gender: int
+    race: str
+    weight: int
+    height: int
+    formulation: str
+    route: int
+    dose: float
+    doses_per_24_hrs: int
+    level_dose_timediff: int
+    treatment_days: int
+    previous_dose: float
+    previous_level: float
+    previous_level_timediff: int
+    age_group: int

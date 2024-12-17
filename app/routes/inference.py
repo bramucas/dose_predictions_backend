@@ -2,18 +2,18 @@ from fastapi import APIRouter
 
 from app.schemas import (
     InputDataOneStep,
-    model_names,
+    InputDataNoLabsOneStep,
 )
-from app.models.one_step_models import predict_one_step
+from app.models.one_step_models import predict_one_step_lab_model, predict_one_step_no_lab_model
 
 router = APIRouter()
 
-@router.post("/inference/{model_name}")
-async def create_item(model_name: str, input_data: InputDataOneStep) -> float:
-    return predict_one_step(model_name, input_data)
+@router.post("/inference/labs")
+async def create_item(input_data: InputDataOneStep) -> float:
+    return predict_one_step_lab_model(input_data)
 
-@router.get("/models/")
-async def get_models() -> list[str]:
-    return list(model_names())
+@router.post("/inference/nolabs")
+async def create_item(input_data: InputDataNoLabsOneStep) -> float:
+    return predict_one_step_no_lab_model(input_data)
 
 

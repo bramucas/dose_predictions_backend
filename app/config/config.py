@@ -4,8 +4,8 @@ from pathlib import Path
 
 class Settings(BaseSettings):
     environment: str
-    one_step_models_dir: str
-    lstm_models_dir: str
+    one_step_model_labs_path: str
+    one_step_model_nolabs_path: str
 
     class Config:
         yaml_file = Path('./app/config.yaml')
