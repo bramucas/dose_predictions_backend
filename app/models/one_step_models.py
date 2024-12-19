@@ -3,17 +3,14 @@ from numpy import linspace, argmin
 from pandas import DataFrame
 
 
-from fastapi import HTTPException
 from app.schemas.one_step_models import (
     InputDataOneStep,
     InputDataNoLabsOneStep,
     InputDataOneStepRecommendation,
-    InputDataNoLabsOneStepRecommendation
+    InputDataNoLabsOneStepRecommendation,
+    RecommendDoseLabModelResponse,
 )
 from app.config import settings
-
-lab_model   = None
-nolab_model = None
 
 def predict_one_step(model, input_data) -> float:
     # Convert input_data (Pydantic model) to a pandas DataFrame with the expected feature columns
@@ -77,18 +74,32 @@ def predict_one_step_no_lab_model(input_data: InputDataNoLabsOneStep) -> float:
     return prediction
 
 
-def recommend_dose_lab_model(input_data: InputDataOneStepRecommendation) -> float:
+def recommend_dose_lab_model(input_data: InputDataOneStepRecommendation) -> RecommendDoseLabModelResponse:
     # Load pre-trained model if not already loaded
     lab_model = joblib.load(f'{settings.one_step_model_labs_path}')
 
     dose_values, predictions, optimal_dose, optimal_level = get_recommended_dose(lab_model, input_data)
 
-    return optimal_dose
+    response = RecommendDoseLabModelResponse(
+        dose_values=[round(float(x), 2) for x in dose_values],
+        predictions=[round(float(x), 2) for x in predictions],
+        optimal_dose=round(float(optimal_dose), 2),
+        optimal_level=round(float(optimal_level), 2),
+    )
 
-def recommend_dose_no_lab_model(input_data: InputDataNoLabsOneStepRecommendation) -> float:
+    return response
+
+def recommend_dose_no_lab_model(input_data: InputDataNoLabsOneStepRecommendation) -> RecommendDoseLabModelResponse:
     # Load pre-trained model if not already loaded
     nolab_model = joblib.load(f'{settings.one_step_model_nolabs_path}')
 
     dose_values, predictions, optimal_dose, optimal_level = get_recommended_dose(nolab_model, input_data)
 
-    return optimal_dose
+    response = RecommendDoseLabModelResponse(
+        dose_values=[round(float(x), 2) for x in dose_values],
+        predictions=[round(float(x), 2) for x in predictions],
+        optimal_dose=round(float(optimal_dose), 2),
+        optimal_level=round(float(optimal_level), 2),
+    )
+
+    return response

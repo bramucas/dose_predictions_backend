@@ -5,6 +5,7 @@ from app.schemas import (
     InputDataNoLabsOneStep,
     InputDataOneStepRecommendation,
     InputDataNoLabsOneStepRecommendation,
+    RecommendDoseLabModelResponse,
 )
 from app.models.one_step_models import (
     predict_one_step_lab_model,
@@ -16,18 +17,18 @@ from app.models.one_step_models import (
 router = APIRouter()
 
 @router.post("/inference/labs")
-async def create_item(input_data: InputDataOneStep) -> float:
+async def inference_labs(input_data: InputDataOneStep) -> float:
     return predict_one_step_lab_model(input_data)
 
 @router.post("/inference/nolabs")
-async def create_item(input_data: InputDataNoLabsOneStep) -> float:
+async def inference_nolabs(input_data: InputDataNoLabsOneStep) -> float:
     return predict_one_step_no_lab_model(input_data)
 
 
 @router.post("/recommend_dose/labs")
-async def create_item(input_data: InputDataOneStepRecommendation) -> float:
+async def recommend_dose_labs(input_data: InputDataOneStepRecommendation) -> RecommendDoseLabModelResponse:
     return recommend_dose_lab_model(input_data)
 
 @router.post("/recommend_dose/nolabs")
-async def create_item(input_data: InputDataNoLabsOneStepRecommendation) -> float:
+async def recommend_dose_nolabs(input_data: InputDataNoLabsOneStepRecommendation) -> RecommendDoseLabModelResponse:
     return recommend_dose_no_lab_model(input_data)

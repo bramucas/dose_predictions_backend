@@ -10,7 +10,7 @@ def model_names() -> list[str]:
     return [model.stem for model in models_dir.glob('*.pkl')]
 
 '''
-input data schema
+input data schema (complete)
 age                           int64
 gender                        int64
 race                         object
@@ -107,7 +107,7 @@ class InputDataOneStepRecommendation(BaseModel):
 
 
 """
-input data schema
+input data schema (small)
 age                       int
 gender                    int
 race                      str
@@ -159,3 +159,9 @@ class InputDataNoLabsOneStepRecommendation(BaseModel):
     previous_level_timediff: int
     age_group: int
     target_level: float
+
+class RecommendDoseLabModelResponse(BaseModel):
+    dose_values: list[float]
+    predictions: list[float]
+    optimal_dose: float
+    optimal_level: float
