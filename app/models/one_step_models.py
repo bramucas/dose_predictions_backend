@@ -9,10 +9,14 @@ from app.schemas.one_step_models import (
     InputDataOneStepRecommendation,
     InputDataNoLabsOneStepRecommendation,
     RecommendDoseLabModelResponse,
+    OneStepPredictionResponse,
 )
 from app.config import settings
 
 def predict_one_step(model, input_data) -> float:
+    '''
+    Uses the given model to make a prediction of the tacro level.
+    '''
     # Convert input_data (Pydantic model) to a pandas DataFrame with the expected feature columns
     input_data_dict = input_data.model_dump()  # Get dictionary from the Pydantic model
     input_data_df = DataFrame([input_data_dict])  # Create DataFrame for a single sample
@@ -20,6 +24,10 @@ def predict_one_step(model, input_data) -> float:
     return model.predict(input_data_df)[0]
 
 def get_recommended_dose(model, input_data) -> float:
+    '''
+    Given a model and a target level, it predicts the level for different doses to find the optimal dose.
+    It returns the optimal dose and the corresponding predictions.
+    '''
     # Convert input_data (Pydantic model) to a pandas DataFrame with the expected feature columns
     input_data_dict = input_data.model_dump()  # Get dictionary from the Pydantic model
     target_level = input_data_dict['target_level']
@@ -45,36 +53,38 @@ def get_recommended_dose(model, input_data) -> float:
 
     return dose_values, predictions, optimal_dose, optimal_level
 
-def predict_one_step_lab_model(input_data: InputDataOneStep) -> float:
+def predict_one_step_lab_model(input_data: InputDataOneStep) -> OneStepPredictionResponse:
     """
     Makes a prediction using the default no_lab model, that is the model without the lab features.
     It's more accurate than the 'no_labs' one.
     """
     # Load pre-trained model if not already loaded
     lab_model = joblib.load(f'{settings.one_step_model_labs_path}')
-    
-    # TEST TODO
-    # test_data = joblib.load(f'{settings.one_step_models_dir}/test_data.joblib')
 
     prediction = predict_one_step(lab_model, input_data)
 
-    return prediction
+    response = OneStepPredictionResponse(predicted_level=float(round(prediction.item(), 2)))
 
-def predict_one_step_no_lab_model(input_data: InputDataNoLabsOneStep) -> float:
+    return response
+
+def predict_one_step_no_lab_model(input_data: InputDataNoLabsOneStep) -> OneStepPredictionResponse:
     """
     Makes a prediction using the default no_lab model, that is the model without the lab features.
     """
     nolab_model = joblib.load(f'{settings.one_step_model_nolabs_path}')
-    
-    # TEST TODO
-    # test_data = joblib.load(f'{settings.one_step_models_dir}/test_data.joblib')
 
     prediction = predict_one_step(nolab_model, input_data)
 
-    return prediction
+    response = OneStepPredictionResponse(predicted_level=float(round(prediction.item(), 2)))
+
+    return response
 
 
 def recommend_dose_lab_model(input_data: InputDataOneStepRecommendation) -> RecommendDoseLabModelResponse:
+    '''
+    Returns the recommended dose for a given input_data, as well as the corresponding predictions
+    used to compute the optimal dose.
+    '''
     # Load pre-trained model if not already loaded
     lab_model = joblib.load(f'{settings.one_step_model_labs_path}')
 
@@ -90,6 +100,10 @@ def recommend_dose_lab_model(input_data: InputDataOneStepRecommendation) -> Reco
     return response
 
 def recommend_dose_no_lab_model(input_data: InputDataNoLabsOneStepRecommendation) -> RecommendDoseLabModelResponse:
+    '''
+    Returns the recommended dose for a given input_data, as well as the corresponding predictions
+    used to compute the optimal dose. It uses the *no_labs model*.
+    '''
     # Load pre-trained model if not already loaded
     nolab_model = joblib.load(f'{settings.one_step_model_nolabs_path}')
 
