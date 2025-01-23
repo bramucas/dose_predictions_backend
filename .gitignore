@@ -166,3 +166,4 @@ cython_debug/
 saved_models/
 preprocessors/
 app/config.yaml
+dosetailor_api/

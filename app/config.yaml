@@ -1,3 +1,6 @@
 environment: "dev"
-one_step_model_labs_path: '/home/velka/projs/pharma/dose_predictions_backend/saved_models/one_step_models/best_xgb-v1.pkl'
-one_step_model_nolabs_path: '/home/velka/projs/pharma/dose_predictions_backend/saved_models/one_step_models/best_xgb_v4_no_labs.pkl'
+one_step_model_labs_path: "/home/velka/projs/pharma/dose_predictions_backend/saved_models/one_step_models/best_xgb-v1.pkl"
+one_step_model_nolabs_path: "/home/velka/projs/pharma/dose_predictions_backend/saved_models/one_step_models/best_xgb_v4_no_labs.pkl"
+# environment: "dev"
+# one_step_model_labs_path: "/app/saved_models/one_step_models/best_xgb-v1.pkl"
+# one_step_model_nolabs_path: "/app/saved_models/one_step_models/best_xgb_v4_no_labs.pkl"
