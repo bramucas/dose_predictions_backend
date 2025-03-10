@@ -13,8 +13,8 @@ class InputDataOneStep(BaseModel):
     age: int
     gender: int
     race: str
-    weight: int
-    height: int
+    weight: float
+    height: float
     state: int
     ast: float
     alt: float
@@ -33,19 +33,19 @@ class InputDataOneStep(BaseModel):
     route: int
     dose: float
     doses_per_24_hrs: int
-    level_dose_timediff: int
+    level_dose_timediff: float
     treatment_days: int
     previous_dose: float
     previous_level: float
-    previous_level_timediff: int
+    previous_level_timediff: float
     age_group: int
 
 class InputDataOneStepRecommendation(BaseModel):
     age: int
     gender: int
     race: str
-    weight: int
-    height: int
+    weight: float
+    height: float
     state: int
     ast: float
     alt: float
@@ -64,11 +64,11 @@ class InputDataOneStepRecommendation(BaseModel):
     route: int
     dose: float
     doses_per_24_hrs: int
-    level_dose_timediff: int
+    level_dose_timediff: float
     treatment_days: int
     previous_dose: float
     previous_level: float
-    previous_level_timediff: int
+    previous_level_timediff: float
     age_group: int
     target_level: float
 
@@ -77,34 +77,34 @@ class InputDataNoLabsOneStep(BaseModel):
     age: int
     gender: int
     race: str
-    weight: int
-    height: int
+    weight: float
+    height: float
     formulation: str
     route: int
     dose: float
     doses_per_24_hrs: int
-    level_dose_timediff: int
+    level_dose_timediff: float
     treatment_days: int
     previous_dose: float
     previous_level: float
-    previous_level_timediff: int
+    previous_level_timediff: float
     age_group: int
 
 class InputDataNoLabsOneStepRecommendation(BaseModel):
     age: int
     gender: int
     race: str
-    weight: int
-    height: int
+    weight: float
+    height: float
     formulation: str
     route: int
     dose: float
     doses_per_24_hrs: int
-    level_dose_timediff: int
+    level_dose_timediff: float
     treatment_days: int
     previous_dose: float
     previous_level: float
-    previous_level_timediff: int
+    previous_level_timediff: float
     age_group: int
     target_level: float
 
